@@ -10,9 +10,10 @@ export const LogoWrapper = styled.View`
 `;
 
 export const TextH3 = styled.Text`
-    color: #FFFFFF;
+    color: #6D6E71;
     text-align: left;
     font-size: 14px;
+    margin-top: 14px;
 `;
 
 // Search location component
@@ -29,10 +30,11 @@ export const SearchInputWrapper = styled.View`
     background-color: #FFFFFF;
     border-radius: 5px;
     box-shadow: 1px 1px 2px #333;
+    margin-bottom: 20px;
 `;
 
 export const RepositoryItem = styled.TouchableOpacity`
-    padding: 5px 0;
+    
 `;
 
 export const Line = styled.View`
@@ -52,4 +54,7 @@ export const Avatar = styled.Image`
     width: 50px;
     height: 50px;
     border-radius: 25px;
+    margin-right: 10px
+    margin-bottom: 5px
 `;
+
