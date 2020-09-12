@@ -1,10 +1,10 @@
-import { SEARCH_REPOSITORY } from './actions';
+import { SEARCH_REPOSITORY, SORT_REPOSITORIES } from './actions';
 
 const initialState = {
     
 };
 
-export const searchData = (state = initialState, action: any) => {
+export const searchData = (state = initialState, action) => {
     const { type, payload } = action;
 
     switch (type) {
@@ -12,6 +12,11 @@ export const searchData = (state = initialState, action: any) => {
             return {
                 ...state,
                 repositories: payload.data
+            };
+        case SORT_REPOSITORIES:
+            return {
+                ...state,
+                repositories: payload
             };
         default:
             return state;

@@ -1,4 +1,5 @@
 export const SEARCH_REPOSITORY = 'SEARCH_REPOSITORY';
+export const SORT_REPOSITORIES = 'SORT_REPOSITORIES';
 
 export const fetchUserLocation = (currentLocation) => {
 	return {
@@ -12,4 +13,11 @@ export const dispatchSearchRepository = (data) => {
 		type: SEARCH_REPOSITORY,
 		payload: { data }	
 	}	
+}
+
+export const dispatchSortRepositories = (payload) => {
+	return {
+		type: SORT_REPOSITORIES,
+		payload
+	}
 }
