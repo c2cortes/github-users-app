@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Image, TouchableOpacity, Text } from 'react-native';
+import { ActivityIndicator, Text } from 'react-native';
 
 // Redux
 import { searchRepository, sortRepository } from './thunks';
@@ -13,18 +13,40 @@ import { SortItemsTouchableOpacity, Logo, SearchWrapper, SearchInputWrapper, See
 import { FormInput } from '../../css/UserLocationStyles';
 
 const SearchComponent = (props) => {
-
-    const [searchQuery, setSearchQuery] = useState('tracktime-re');
+    
     const { searchLocation, sortItems, repositories, selectedItems, navigation } = props;
+    const [searchQuery, setSearchQuery] = useState('');
+    const [preloader, setPreloader] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
 
     const changeInput = (searchQuery) => {
         setSearchQuery(searchQuery);
-        searchLocation(searchQuery);
+        if(validateUppercase(searchQuery)){
+            searchLocation(searchQuery);
+            setPreloader(true);
+            setErrorMessage('');
+        } else {
+            setErrorMessage('Letters have to be lowercase');
+        }
+    }
+
+    const validateUppercase = (searchQuery) => {
+        var passed = true;
+        for(const l of searchQuery) {
+            if(l == l.toUpperCase()){
+                passed = false;
+            }
+        }
+        return passed;
     }
 
     const renderItem = ({item}) => {
         return (<ItemRepository item={item} icons={true}/>)
     }
+
+    useEffect(() => {
+        setPreloader(false);
+    }, [repositories]);
 
     return (
         <SearchWrapper styles={{ flex: 1 }}>
@@ -33,10 +55,10 @@ const SearchComponent = (props) => {
                 <FormInput onChange={e => changeInput(e.nativeEvent.text)} value={searchQuery} placeholder={'Type something...'} />
             </SearchInputWrapper>
                 <SortItemsTouchableOpacity onPress={ () => sortItems() }>
-                    <Text>
-                    { 'Sort items by date' }
-                    </Text>
+                    <Text>{ 'Sort items by date' }</Text>
                 </SortItemsTouchableOpacity>
+                <Text style={{ color: '#810011' }}>{errorMessage}</Text>
+                { preloader ? <ActivityIndicator size="large" /> : null }
             <RepositoriesList
                 data={repositories}
                 renderItem={renderItem}

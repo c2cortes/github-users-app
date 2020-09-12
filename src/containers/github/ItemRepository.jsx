@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, TouchableOpacity } from 'react-native';
+import React, { useState, useRef } from 'react';
+import { View, TouchableOpacity, Animated, StyleSheet } from 'react-native';
 
 // Redux
 import { addSelectedItem, removeItem } from './thunks';
@@ -19,30 +19,51 @@ const ItemRepository = (props) => {
         addSelectedItemAction(item);
     }
 
+    const animateDuration = Math.floor(Math.random() * Math.floor(4)) * 1000;
+    const fadeAnim = useRef(new Animated.Value(0)).current;
+    Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: animateDuration,
+        useNativeDriver: true
+    }).start();
+
     return (
-        <RepositoryItem style={{ flexDirection: 'column' }} >
-            <View style={{ flexDirection: 'row', opacity: selected ? .5 : 1 }}>
-                <TouchableOpacity onPress={ () => onPressCallBack ? onPressCallBack() : onPressItem(item) } style={{ flexDirection: 'row' }}>
-                    <Avatar source={{ uri: avatar_url }} />
-                    <ItemInfoContent style={{ flexDirection: 'column' }}>
-                        <TextH3>{login}</TextH3>
-                        <TextH3>{name}</TextH3>
-                        <TextH3>{stargazers_count + ' stars'}</TextH3>
-                        <TextH3>{'Date: ' + created_at}</TextH3>
-                    </ItemInfoContent>
-                </TouchableOpacity>
-                { icons ? 
-                    <ItemIcons style={{ flexDirection: 'row' }}>
-                        <TouchableOpacity onPress={ () => removeItemAction(item) } style={{ left: 10, top: 4 }}>
-                            <AntDesign name="minuscircleo" size={24} />
-                        </TouchableOpacity>
-                    </ItemIcons> 
-                : null }
-            </View>
-            <Line />
-        </RepositoryItem>
+        <Animated.View
+            style={[
+                styles.fadingContainer,
+                {
+                    opacity: fadeAnim // Bind opacity to animated value
+                }
+            ]}
+        >
+            <RepositoryItem style={{ flexDirection: 'column' }} >
+                <View style={{ flexDirection: 'row', opacity: selected ? .5 : 1 }}>
+                    <TouchableOpacity onPress={() => onPressCallBack ? onPressCallBack() : onPressItem(item)} style={{ flexDirection: 'row' }}>
+                        <Avatar source={{ uri: avatar_url }} />
+                        <ItemInfoContent style={{ flexDirection: 'column' }}>
+                            <TextH3>{login}</TextH3>
+                            <TextH3>{name}</TextH3>
+                            <TextH3>{stargazers_count + ' stars'}</TextH3>
+                            <TextH3>{'Date: ' + created_at}</TextH3>
+                        </ItemInfoContent>
+                    </TouchableOpacity>
+                    {icons ?
+                        <ItemIcons style={{ flexDirection: 'row' }}>
+                            <TouchableOpacity onPress={() => removeItemAction(item)} style={{ left: 10, top: 4 }}>
+                                <AntDesign name="minuscircleo" size={24} />
+                            </TouchableOpacity>
+                        </ItemIcons>
+                        : null}
+                </View>
+                <Line />
+            </RepositoryItem>
+        </Animated.View>
     )
 }
+
+const styles = StyleSheet.create({
+    fadingContainer: {}
+});
 
 const mapStateToProps = (state) => {
     return {
