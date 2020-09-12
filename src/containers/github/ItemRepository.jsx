@@ -9,7 +9,7 @@ import { EvilIcons, AntDesign, Ionicons } from "@expo/vector-icons";
 import { RepositoryItem, Avatar, TextH3, Line, ItemInfoContent, ItemIcons, AddElementButton } from '../../css/Styles';
 
 const ItemRepository = (props) => {
-    const { item, addSelectedItemAction, removeItemAction } = props;
+    const { item, addSelectedItemAction, removeItemAction, icons, onPressCallBack } = props;
     const { owner, name, stargazers_count, created_at } = item;
     const { avatar_url, login } = owner;
     const [selected, setSelected] = useState(false);
@@ -22,7 +22,7 @@ const ItemRepository = (props) => {
     return (
         <RepositoryItem style={{ flexDirection: 'column' }} >
             <View style={{ flexDirection: 'row', opacity: selected ? .5 : 1 }}>
-                <TouchableOpacity onPress={ () => onPressItem(item) } style={{ flexDirection: 'row' }}>
+                <TouchableOpacity onPress={ () => onPressCallBack ? onPressCallBack() : onPressItem(item) } style={{ flexDirection: 'row' }}>
                     <Avatar source={{ uri: avatar_url }} />
                     <ItemInfoContent style={{ flexDirection: 'column' }}>
                         <TextH3>{login}</TextH3>
@@ -31,11 +31,13 @@ const ItemRepository = (props) => {
                         <TextH3>{'Date: ' + created_at}</TextH3>
                     </ItemInfoContent>
                 </TouchableOpacity>
-                <ItemIcons style={{ flexDirection: 'row' }}>
-                    <TouchableOpacity onPress={ () => removeItemAction(item) } style={{ left: 10, top: 4 }}>
-                        <AntDesign name="minuscircleo" size={24} />
-                    </TouchableOpacity>
-                </ItemIcons>
+                { icons ? 
+                    <ItemIcons style={{ flexDirection: 'row' }}>
+                        <TouchableOpacity onPress={ () => removeItemAction(item) } style={{ left: 10, top: 4 }}>
+                            <AntDesign name="minuscircleo" size={24} />
+                        </TouchableOpacity>
+                    </ItemIcons> 
+                : null }
             </View>
             <Line />
         </RepositoryItem>

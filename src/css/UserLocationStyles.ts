@@ -5,5 +5,5 @@ export const FormInput = styled.TextInput`
     height: auto;
     padding-top: 15px;
     padding-bottom: 15px;
-    color: #4AB09B;
+    color: #000000;
 `;

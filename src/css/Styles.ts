@@ -5,6 +5,10 @@ export const Wrapper = styled.View`
     padding-top: 100px;
 `;
 
+export const Logo = styled.Image`
+    margin: auto;
+`;
+
 export const LogoWrapper = styled.View`
     padding: 0 20%;
 `;
@@ -17,9 +21,8 @@ export const TextH3 = styled.Text`
 `;
 
 // Search location component
-
 export const SearchWrapper = styled.View`
-    padding: 120px 15px;
+    padding: 5px 15px;
 `;
 
 export const SearchInputWrapper = styled.View`
@@ -83,6 +86,10 @@ export const SeeSelectedElementsLabel = styled.Text`
 `;
 
 export const RepositoriesList = styled.FlatList`
-    height: 84wha%;
+    height: 84%;
+    margin-top: 20px;
 `;
 
+export const SortItemsTouchableOpacity = styled.TouchableOpacity`
+    margin-bottom: 15px;
+`;

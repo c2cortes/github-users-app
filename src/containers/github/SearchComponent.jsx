@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FlatList, TouchableOpacity, Text } from 'react-native';
+import { Image, TouchableOpacity, Text } from 'react-native';
 
 // Redux
 import { searchRepository, sortRepository } from './thunks';
@@ -9,13 +9,13 @@ import { connect } from 'react-redux';
 import ItemRepository from './ItemRepository';
 
 // Style
-import { SearchWrapper, SearchInputWrapper, SeeSelectedElementsButton, SeeSelectedElementsLabel, RepositoriesList } from '../../css/Styles';
+import { SortItemsTouchableOpacity, Logo, SearchWrapper, SearchInputWrapper, SeeSelectedElementsButton, SeeSelectedElementsLabel, RepositoriesList } from '../../css/Styles';
 import { FormInput } from '../../css/UserLocationStyles';
 
 const SearchComponent = (props) => {
 
     const [searchQuery, setSearchQuery] = useState('tracktime-re');
-    const { searchLocation, sortItems, repositories, selectedItems } = props;
+    const { searchLocation, sortItems, repositories, selectedItems, navigation } = props;
 
     const changeInput = (searchQuery) => {
         setSearchQuery(searchQuery);
@@ -23,26 +23,26 @@ const SearchComponent = (props) => {
     }
 
     const renderItem = ({item}) => {
-        return (<ItemRepository item={item}/>)
+        return (<ItemRepository item={item} icons={true}/>)
     }
 
     return (
         <SearchWrapper styles={{ flex: 1 }}>
+            <Logo source={require('../../assets/images/GitHub-Mark-64px.png')}></Logo>
             <SearchInputWrapper style={{ flexDirection: 'column' }}>        
                 <FormInput onChange={e => changeInput(e.nativeEvent.text)} value={searchQuery} placeholder={'Type something...'} />
             </SearchInputWrapper>
-                <TouchableOpacity onPress={ () => sortItems() }>
+                <SortItemsTouchableOpacity onPress={ () => sortItems() }>
                     <Text>
                     { 'Sort items by date' }
                     </Text>
-                </TouchableOpacity>
+                </SortItemsTouchableOpacity>
             <RepositoriesList
                 data={repositories}
                 renderItem={renderItem}
                 keyExtractor={(item) => String(item.id)}
-                // style={{ flex: 1 }}
             />
-            <SeeSelectedElementsButton>
+            <SeeSelectedElementsButton onPress={ () => navigation.navigate('SelectedRepositories') }>
                 <SeeSelectedElementsLabel>{`See the selected elements (${selectedItems.length})`}</SeeSelectedElementsLabel>
             </SeeSelectedElementsButton>
         </SearchWrapper>
