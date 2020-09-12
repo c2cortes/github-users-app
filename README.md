@@ -14,12 +14,7 @@ git clone https://github.com/c2cortes/github-users-app
 #### Install dependencies
 
 ```
-npm install
-```
-or
-```
-yarn
-```
+expo install
 
 ### Usage
 
