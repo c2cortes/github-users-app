@@ -32,3 +32,11 @@ export const addSelectedItem = (item) => async (dispatch, getState) => {
     }
     dispatch(dispatchUpdateSelectedItems(newItems));
 }
+
+export const removeItem = (item) => async (dispatch, getState) => {
+    const items = getState().searchData.repositories.items.slice();
+    const itemFound = items.findIndex(element => element.id === item.id);
+    itemFound && itemFound == 0 ? items.splice(0) : items.splice(itemFound, 1);
+    const repositoriesSorted = { items }
+    dispatch(dispatchSortRepositories(repositoriesSorted));
+}

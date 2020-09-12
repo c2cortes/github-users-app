@@ -54,12 +54,11 @@ export const FindAddressOnMapButtonView = styled.View`
 `;
 
 export const ItemInfoContent = styled.View`
-    width: 60%;
+    width: 65%;
 `;
 
 export const ItemIcons = styled.View`
-    width: 20%;
-    padding-top: 17px
+    padding-top: 15px
 `;
 
 export const Avatar = styled.Image`
