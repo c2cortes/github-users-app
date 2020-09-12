@@ -9,13 +9,13 @@ import { connect } from 'react-redux';
 import ItemRepository from './ItemRepository';
 
 // Style
-import { SearchWrapper, SearchInputWrapper } from '../../css/Styles';
+import { SearchWrapper, SearchInputWrapper, SeeSelectedElementsButton, SeeSelectedElementsLabel, RepositoriesList } from '../../css/Styles';
 import { FormInput } from '../../css/UserLocationStyles';
 
 const SearchComponent = (props) => {
 
     const [searchQuery, setSearchQuery] = useState('tracktime-re');
-    const { searchLocation, sortItems, repositories } = props;
+    const { searchLocation, sortItems, repositories, selectedItems } = props;
 
     const changeInput = (searchQuery) => {
         setSearchQuery(searchQuery);
@@ -26,14 +26,8 @@ const SearchComponent = (props) => {
         return (<ItemRepository item={item}/>)
     }
 
-    useEffect(() => {
-        console.log('GOT THIS CHANGED => ', repositories)
-        // console.log('repositories => ', repositories)
-    }, repositories);
-    
-
     return (
-        <SearchWrapper>
+        <SearchWrapper styles={{ flex: 1 }}>
             <SearchInputWrapper style={{ flexDirection: 'column' }}>        
                 <FormInput onChange={e => changeInput(e.nativeEvent.text)} value={searchQuery} placeholder={'Type something...'} />
             </SearchInputWrapper>
@@ -42,18 +36,23 @@ const SearchComponent = (props) => {
                     { 'Sort items by date' }
                     </Text>
                 </TouchableOpacity>
-            <FlatList
+            <RepositoriesList
                 data={repositories}
                 renderItem={renderItem}
                 keyExtractor={(item) => String(item.id)}
+                // style={{ flex: 1 }}
             />
+            <SeeSelectedElementsButton>
+                <SeeSelectedElementsLabel>{`See the selected elements (${selectedItems.length})`}</SeeSelectedElementsLabel>
+            </SeeSelectedElementsButton>
         </SearchWrapper>
     )
 }
 
 const mapStateToProps = (state) => {
     return {
-        repositories: state.searchData.repositories.items
+        repositories: state.searchData.repositories.items,
+        selectedItems: state.searchData.selectedItems
     }
 };
 

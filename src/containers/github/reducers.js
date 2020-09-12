@@ -1,7 +1,8 @@
-import { SEARCH_REPOSITORY, SORT_REPOSITORIES } from './actions';
+import { SEARCH_REPOSITORY, SORT_REPOSITORIES, UPDATE_SELECTED_ITEMS } from './actions';
 
 const initialState = {
-    
+    repositories: [],
+    selectedItems: []
 };
 
 export const searchData = (state = initialState, action) => {
@@ -17,6 +18,11 @@ export const searchData = (state = initialState, action) => {
             return {
                 ...state,
                 repositories: payload
+            };
+        case UPDATE_SELECTED_ITEMS:
+            return {
+                ...state,
+                selectedItems: payload
             };
         default:
             return state;

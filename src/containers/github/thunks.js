@@ -1,4 +1,4 @@
-import { dispatchSearchRepository, dispatchSortRepositories } from './actions';
+import { dispatchSearchRepository, dispatchSortRepositories, dispatchUpdateSelectedItems } from './actions';
 import Http from '../../api/HttpRequest';
 
 export const searchRepository = (searchQuery) => async (dispatch) => {
@@ -20,3 +20,15 @@ export const sortRepository = () => async (dispatch, getState) => {
     const repositoriesSorted = { items }
     dispatch(dispatchSortRepositories(repositoriesSorted));
 } 
+
+export const addSelectedItem = (item) => async (dispatch, getState) => {
+    const newItems = getState().searchData.selectedItems.slice();
+    const itemFound = newItems.find(element => element.id === item.id);
+    if(itemFound) {
+        const indexx = newItems.findIndex(element => element.id === item.id);
+        newItems.splice(indexx, 1)
+    } else {
+        newItems.push(item)  
+    }
+    dispatch(dispatchUpdateSelectedItems(newItems));
+}
